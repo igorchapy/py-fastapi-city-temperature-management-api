@@ -20,4 +20,21 @@ app = FastAPI(
     version="1.0.0"
 )
 
+
+@app.on_event("startup")
+async def startup():
+    Base.metadata.create_all(bind=engine)
+
+
 app.include_router(cities.router, prefix="/cities", tags=["cities"])
+app.include_router(temperatures.router, prefix="/temperatures", tags=["temperatures"])
+
+
+app.add_exception_handler(HTTPException, http_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(Exception, general_exception_handler)
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await close_http_client()

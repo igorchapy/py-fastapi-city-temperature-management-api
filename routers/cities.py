@@ -7,7 +7,7 @@ from app.models.city import City
 from app.schemas.city import CityCreate, CityUpdate, City as CitySchema
 from app.exceptions import not_found_error, bad_request_error
 
-router = APIRouter(prefix="/cities", tags=["cities"])
+router = APIRouter(tags=["cities"])
 
 @router.post("/", response_model=CitySchema, status_code=201)
 async def create_city(city: CityCreate, db: AsyncSession = Depends(get_db)):
