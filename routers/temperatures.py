@@ -17,7 +17,6 @@ from app.exceptions import not_found_error, bad_request_error
 logger = logging.getLogger(__name__)
 
 router = APIRouter(
-    prefix="/temperatures",
     tags=["temperatures"]
 )
 
