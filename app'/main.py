@@ -23,7 +23,8 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup():
-    Base.metadata.create_all(bind=engine)
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
 app.include_router(cities.router, prefix="/cities", tags=["cities"])
